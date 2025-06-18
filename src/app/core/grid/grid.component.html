@@ -1,0 +1,24 @@
+<div
+  class="viewport"
+  [class.dragging]="dragging()"
+  (mousedown)="pointerDown($event)"
+  (contextmenu)="onContextMenu($event)"
+  (wheel)="onWheel($event)"
+>
+  @if (showContextMenu()) {
+  <x-context-menu
+    [isVisable]="showContextMenu()"
+    [menuX]="lastMouseX()"
+    [menuY]="lastMouseY()"
+  ></x-context-menu>
+  }
+
+  <div
+    class="canvas"
+    [style.width]="grid.size + 'px'"
+    [style.height]="grid.size + 'px'"
+    [style.transform]="transform"
+    [style.background]="gridBackground"
+    #canvas
+  ></div>
+</div>

@@ -1,0 +1,9 @@
+html {
+  margin: 0;
+  font-family: "Cascadia Mono", "Cascadia Code", "Fira Mono", "Menlo",
+    "Consolas", monospace;
+}
+
+body {
+  margin: 0;
+}

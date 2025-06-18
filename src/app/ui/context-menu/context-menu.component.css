@@ -1,0 +1,19 @@
+.context-menu {
+  position: fixed;
+  z-index: 10000;
+  background-color: #343434;
+  color: #ebebeb;
+
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #2222;
+  padding: 0.5em 0;
+  min-width: 120px;
+  font-size: 1em;
+}
+.context-menu > div {
+  padding: 0.5em 1.5em;
+  cursor: pointer;
+}
+.context-menu > div:hover {
+  background: #6e56aa;
+}

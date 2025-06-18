@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: #181818;
+  user-select: none;
+}
+
+.canvas {
+  /* width: 10000px;
+  height: 10000px; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 4px solid rgb(40, 40, 40);
+
+  /* transition: transform 0.18s cubic-bezier(0.45, 1.6, 0.5, 1); */
+
+  /* cursor: grab; */
+  /* transition: transform 0s; */
+}
+.viewport.dragging .canvas {
+  cursor: grab;
+  /* cursor: grabbing; */
+}
