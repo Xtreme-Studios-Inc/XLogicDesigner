@@ -1,7 +1,3 @@
-:host {
-  display: block;
-}
-
 .viewport {
   width: 100vw;
   height: 100vh;
@@ -9,20 +5,20 @@
   position: relative;
   background: #181818;
   user-select: none;
+
+  /* z-index: 0; */
 }
 
 .canvas {
-  /* width: 10000px;
-  height: 10000px; */
   position: absolute;
   top: 0;
   left: 0;
   border: 4px solid rgb(40, 40, 40);
 
-  /* transition: transform 0.18s cubic-bezier(0.45, 1.6, 0.5, 1); */
-
-  /* cursor: grab; */
-  /* transition: transform 0s; */
+  image-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 .viewport.dragging .canvas {
   cursor: grab;

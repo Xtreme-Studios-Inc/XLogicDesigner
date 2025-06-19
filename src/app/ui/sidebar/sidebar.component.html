@@ -1,1 +1,7 @@
-<p>sidebar works!</p>,
+<div class="sidebar" [attr.collapsed]="collapsed() ? '' : null">
+  <header class="sidebar-header">
+    <div class="collapse-button" (click)="collapse()">&#60;</div>
+  </header>
+
+  test
+</div>

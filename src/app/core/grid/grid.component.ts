@@ -19,8 +19,9 @@ export class GridComponent {
   grid = {
     color: "#272727",
     size: 10000,
-    cellSize: 50,
+    cellSize: 100,
     lineWidth: 3,
+    baseZoom: 2,
     maxZoom: 2,
     minZoom: 0.4,
   };
@@ -38,7 +39,7 @@ export class GridComponent {
   dragging = signal(false);
   lastMouseX = signal(0);
   lastMouseY = signal(0);
-  zoom = signal(1);
+  zoom = signal(this.grid.baseZoom);
 
   selectionActive = signal(false);
   selectionStartX = signal(0);

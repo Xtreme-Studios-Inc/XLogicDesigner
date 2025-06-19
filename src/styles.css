@@ -1,3 +1,20 @@
+/* GLOBAL STYLES */
+:root {
+  --primary-color: #3bb273;
+  --secondary-color: #a8ffce;
+  --accent-color: #c9f658;
+  --dark-accent-color: #1b4d3e;
+  --contrast: #24292e;
+  --background-color: #191d1a;
+
+  --highlight-color: #446954;
+
+  --text-color: #f7fdf6;
+
+  --border-radius: 0.4em;
+  --toolbar-height: 50px;
+}
+
 html {
   margin: 0;
   font-family: "Cascadia Mono", "Cascadia Code", "Fira Mono", "Menlo",

@@ -15,5 +15,5 @@
   cursor: pointer;
 }
 .context-menu > div:hover {
-  background: #6e56aa;
+  background: var(--highlight-color);
 }

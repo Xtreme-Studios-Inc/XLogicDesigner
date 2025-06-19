@@ -1,0 +1,36 @@
+:host {
+  --toolbar-margin: 5px;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
+
+  /* margin: 5px; */
+  /* border-radius: 0.4em; */
+
+  width: 100vw;
+  /* width: calc(100vw - var(--toolbar-margin) * 2); */
+  height: var(--toolbar-height);
+  /* height: 50px; */
+
+  /* display: flex; */
+  /* flex-direction: column; */
+
+  flex: 0 0 250px; /* sidebar width */
+
+  z-index: 2;
+}
+
+.logo {
+  /* padding-left: 5px; */
+  width: 34px;
+  padding: 0px 5px 0px 5px;
+}

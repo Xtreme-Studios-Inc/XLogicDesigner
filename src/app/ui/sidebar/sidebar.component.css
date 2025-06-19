@@ -1,3 +1,50 @@
 :host {
-  display: block;
+  --sidebar-margin: 5px;
+}
+
+.sidebar {
+  position: absolute;
+  top: var(--toolbar-height);
+  left: 0;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
+
+  width: 300px;
+  height: calc(100vh - var(--toolbar-height));
+
+  flex: 0 0 250px; /* sidebar width */
+  transition: width 0.2s;
+  z-index: 2; /* above canvas if needed */
+
+  .sidebar-header {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+
+    .collapse-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1/1;
+      /* padding: 9px; */
+      width: 40px;
+      margin: 2px;
+      border-radius: var(--border-radius);
+      color: rgb(12, 12, 12);
+      font-weight: 900;
+      background-color: var(--secondary-color);
+    }
+  }
+}
+
+.sidebar[collapsed] {
+  width: 50px;
+  flex-basis: 60px; /* collapsed width */
+
+  .large {
+    display: none;
+    /* visibility: hidden; */
+  }
 }
