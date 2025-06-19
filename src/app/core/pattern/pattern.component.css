@@ -1,1 +1,20 @@
+:host {
+}
 
+.pattern {
+  display: flex;
+  flex-wrap: wrap;
+
+  position: absolute;
+  /* top: 200px; 
+  left: 100px;  */
+  z-index: 1;
+
+  background-color: var(--primary-color);
+  width: 100px;
+  height: 100px;
+  /* padding: 7px; */
+  align-content: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+}

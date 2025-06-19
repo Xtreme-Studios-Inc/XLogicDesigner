@@ -20,5 +20,13 @@
     [style.transform]="transform"
     [style.background]="gridBackground"
     #canvas
-  ></div>
+  >
+    <div class="center-line vertical"></div>
+    <div class="center-line horizontal"></div>
+    <x-pattern
+      [gridZoom]="this.zoom()"
+      [gridSize]="this.grid.size"
+      [canvasRect]="this.canvas.nativeElement.getBoundingClientRect()"
+    ></x-pattern>
+  </div>
 </div>

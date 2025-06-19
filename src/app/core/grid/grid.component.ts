@@ -6,10 +6,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ContextMenuComponent } from "../../ui/context-menu/context-menu.component";
+import { PatternComponent } from "../pattern/pattern.component";
 
 @Component({
   selector: "x-grid",
-  imports: [ContextMenuComponent],
+  imports: [ContextMenuComponent, PatternComponent],
   templateUrl: "./grid.component.html",
   styleUrl: "./grid.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,13 +81,13 @@ export class GridComponent {
 
   onGridMouseMove = (event: MouseEvent) => {
     if (!this.selectionActive()) return;
-    console.log("grid mouse move");
+    // console.log("grid mouse move");
     this.selectionCurrentX.set(event.clientX);
     this.selectionCurrentY.set(event.clientY);
   };
 
   onGridMouseUp = (event: MouseEvent) => {
-    console.log("grid Mouse up");
+    // console.log("grid Mouse up");
     if (!this.selectionActive()) return;
     this.selectionActive.set(false);
 
@@ -237,6 +238,7 @@ export class GridComponent {
       setTimeout(() => {
         this.dragging.set(false);
       }, 10);
+      console.log("gird pos: " + this.offsetX() + " : " + this.offsetY());
     }
     this.mouseDownR.set(false);
     this.mouseDownL.set(false);

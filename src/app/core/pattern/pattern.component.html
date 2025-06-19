@@ -1,1 +1,8 @@
-<p>pattern works!</p>,
+<div
+  class="pattern"
+  [style.top]="this.y() + 'px'"
+  [style.left]="this.x() + 'px'"
+  (mousedown)="pointerDown($event)"
+>
+  *
+</div>
