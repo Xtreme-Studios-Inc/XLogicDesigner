@@ -1,0 +1,7 @@
+<div class="button">
+  @if (this.icon()) {
+  <x-icon [iconName]="this.icon()"></x-icon>
+  } @else {
+  <label>{{ this.label() }}</label>
+  }
+</div>

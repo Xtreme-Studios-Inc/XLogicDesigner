@@ -5,10 +5,11 @@ import {
   output,
   signal,
 } from "@angular/core";
+import { IconComponent } from "../icon/icon.component";
 
 @Component({
   selector: "x-sidebar",
-  imports: [],
+  imports: [IconComponent],
   templateUrl: "./sidebar.component.html",
   styleUrl: "./sidebar.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
