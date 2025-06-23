@@ -1,9 +1,9 @@
 <div class="sidebar" [attr.collapsed]="collapsed() ? '' : null">
   <header class="sidebar-header">
-    <div class="collapse-button" (click)="collapse()">
-      <x-icon [iconName]="'draw-circle'"></x-icon>
-    </div>
-    <!-- <div class="collapse-button" (click)="collapse()">&#60;</div> -->
+    <xbutton
+      [icon]="this.collapsed() ? 'sidebar-open' : 'sidebar-close'"
+      (clicked)="collapse()"
+    ></xbutton>
   </header>
   <hr width="97%" />
 

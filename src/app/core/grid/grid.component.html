@@ -24,6 +24,14 @@
     <!-- <div class="center-line vertical"></div>
     <div class="center-line horizontal"></div> -->
 
-    <x-pattern [gridZoom]="this.zoom()" [gridSize]="this.grid.size"></x-pattern>
+    @for (piece of project; track $index) {
+    <x-pattern
+      [gridZoom]="this.zoom()"
+      [gridSize]="this.grid.size"
+      [pattern]="piece.id"
+    ></x-pattern>
+    }
+
+    <!-- <x-pattern [gridZoom]="this.zoom()" [gridSize]="this.grid.size"></x-pattern> -->
   </div>
 </div>

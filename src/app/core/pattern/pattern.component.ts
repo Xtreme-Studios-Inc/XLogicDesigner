@@ -4,10 +4,11 @@ import {
   input,
   signal,
 } from "@angular/core";
+import { PatternTypeComponent } from "./pattern-type/pattern-type.component";
 
 @Component({
   selector: "x-pattern",
-  imports: [],
+  imports: [PatternTypeComponent],
   templateUrl: "./pattern.component.html",
   styleUrl: "./pattern.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,12 +25,12 @@ export class PatternComponent {
 
   dragging = signal(false);
 
+  pattern = input.required<string>();
+
   pointerDown(event: MouseEvent) {
     event.preventDefault();
 
-    if (event.button == 0) {
-      this.leftClick(event);
-    }
+    if (event.button == 0) this.leftClick(event);
   }
 
   // Select

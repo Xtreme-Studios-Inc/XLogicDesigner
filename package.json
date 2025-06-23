@@ -2,6 +2,7 @@
   "name": "logicdesigner",
   "version": "0.1.0",
   "scripts": {
+    "dev": "tauri dev",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

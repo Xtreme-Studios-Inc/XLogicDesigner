@@ -1,0 +1,26 @@
+:host {
+  --io-size: 10px;
+  width: 100%;
+}
+
+.pattern-type {
+  display: flex;
+
+  font-size: x-small;
+  justify-content: space-between;
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* .input {
+      margin: 5px;
+      width: var(--io-size);
+      height: var(--io-size);
+
+      background-color: gray;
+      border-radius: 50%;
+    } */
+  }
+}

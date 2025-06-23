@@ -4,5 +4,6 @@
   [style.left]="this.x() + 'px'"
   (mousedown)="pointerDown($event)"
 >
-  *
+  {{ this.pattern() }}
+  <x-pattern-type [patternType]="this.pattern()"></x-pattern-type>
 </div>

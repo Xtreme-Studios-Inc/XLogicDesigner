@@ -1,0 +1,16 @@
+<main class="pattern-type">
+  <section class="inputs">
+    @for (input of inputs; track $index) {
+    <span>
+      {{ input.id }}
+    </span>
+    <x-io-pin></x-io-pin>
+    }
+  </section>
+  <section class="outputs">
+    @for (output of outputs; track $index) {
+    {{ output.id }}
+    <x-io-pin></x-io-pin>
+    }
+  </section>
+</main>

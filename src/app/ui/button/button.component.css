@@ -10,4 +10,10 @@
   color: rgb(12, 12, 12);
   font-weight: 900;
   background-color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #8dd8ae;
+  /* --secondary-color: #8dd8ae; */
 }

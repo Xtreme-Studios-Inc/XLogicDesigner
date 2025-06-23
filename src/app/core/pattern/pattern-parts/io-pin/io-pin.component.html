@@ -1,0 +1,15 @@
+<main #sourceDiv class="io" (mousedown)="drawLine($event, sourceDiv)"></main>
+
+@if (isDragging) {
+
+<svg>
+  <line
+    [attr.x1]="this.startX()"
+    [attr.y1]="this.startY()"
+    [attr.x2]="this.mouseX()"
+    [attr.y2]="this.mouseY()"
+    stroke="red"
+    stroke-width="4"
+  />
+</svg>
+}

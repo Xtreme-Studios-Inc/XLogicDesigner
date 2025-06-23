@@ -7,6 +7,12 @@ import {
 } from "@angular/core";
 import { ContextMenuComponent } from "../../ui/context-menu/context-menu.component";
 import { PatternComponent } from "../pattern/pattern.component";
+import { SaveFile } from "../types/project-types";
+import {
+  PatternDefinition,
+  PatternType,
+} from "../pattern/pattern-type/pattern";
+import { PatternService } from "../pattern/pattern-type/pattern.service";
 
 @Component({
   selector: "x-grid",
@@ -16,6 +22,8 @@ import { PatternComponent } from "../pattern/pattern.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridComponent {
+  constructor(private patternService: PatternService) {}
+
   // Grid Settings
   grid = {
     color: "#272727",
@@ -57,6 +65,20 @@ export class GridComponent {
     return `repeating-linear-gradient(0deg, ${line}),
             repeating-linear-gradient(90deg, ${line})`;
   }
+
+  //#region SAVE
+  saveFile: SaveFile = {
+    pieces: [PatternType.AND, PatternType.OR, PatternType.NOT],
+  };
+
+  get project() {
+    const project: PatternDefinition[] = this.saveFile.pieces.map((element) => {
+      return this.patternService.createPattern(element);
+    });
+    return project;
+  }
+
+  //#endregion
 
   onContextMenu(event: MouseEvent) {
     event.preventDefault();

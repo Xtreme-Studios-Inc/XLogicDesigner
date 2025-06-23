@@ -1,0 +1,19 @@
+.io {
+  cursor: pointer;
+  margin: 5px;
+  width: var(--io-size);
+  height: var(--io-size);
+
+  background-color: gray;
+  border-radius: 50%;
+}
+
+svg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+}

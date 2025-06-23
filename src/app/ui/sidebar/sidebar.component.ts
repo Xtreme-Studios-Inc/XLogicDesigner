@@ -6,10 +6,11 @@ import {
   signal,
 } from "@angular/core";
 import { IconComponent } from "../icon/icon.component";
+import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: "x-sidebar",
-  imports: [IconComponent],
+  imports: [IconComponent, ButtonComponent],
   templateUrl: "./sidebar.component.html",
   styleUrl: "./sidebar.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
