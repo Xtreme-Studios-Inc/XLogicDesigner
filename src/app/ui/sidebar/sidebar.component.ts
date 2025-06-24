@@ -1,16 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  input,
   output,
   signal,
 } from "@angular/core";
-import { IconComponent } from "../icon/icon.component";
 import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: "x-sidebar",
-  imports: [IconComponent, ButtonComponent],
+  imports: [ButtonComponent],
   templateUrl: "./sidebar.component.html",
   styleUrl: "./sidebar.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,

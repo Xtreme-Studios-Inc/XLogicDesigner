@@ -8,25 +8,45 @@ import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IoPinComponent {
-  isDragging = false;
+  dragging = signal(false);
   startX = signal(0);
   startY = signal(0);
   mouseX = signal(0);
   mouseY = signal(0);
 
+  // pointerDown(event: MouseEvent) {
+  //   event.preventDefault();
+
+  //   if (event.button == 0) this.drawLine(event);
+  // }
+
   drawLine(event: MouseEvent, div: HTMLElement) {
     event.stopPropagation();
 
-    window.addEventListener("mousemove", this.move);
-    window.addEventListener("mouseup", this.up);
+    window.addEventListener("mousemove", this.pointerMove);
+    window.addEventListener("mouseup", this.pointerUp);
 
     const r = div.getBoundingClientRect();
     this.startX.set(r.left + r.width / 2);
     this.startY.set(r.top + r.height / 2);
-    this.isDragging = true;
+    this.dragging.set(true);
   }
 
-  move = (e: MouseEvent) => {
+  // private dragOffsetX = 0;
+  // private dragOffsetY = 0;
+  // drawLine(event: MouseEvent) {
+  //   this.mouseDownL.set(true);
+
+  //   window.addEventListener("mousemove", this.pointerMove);
+  //   window.addEventListener("mouseup", this.pointerUp);
+
+  //   const zoom = this.gridZoom();
+
+  //   this.dragOffsetX = event.clientX - this.x() * zoom; // or world-to-canvas mapping if zoomed/panned
+  //   this.dragOffsetY = event.clientY - this.y() * zoom;
+  // }
+
+  pointerMove = (e: MouseEvent) => {
     this.mouseX.set(e.clientX);
     this.mouseY.set(e.clientY);
 
@@ -41,10 +61,10 @@ export class IoPinComponent {
     // console.log("x" + this.mouseX());
     // console.log("y" + this.mouseY());
   };
-  up = () => {
+  pointerUp = () => {
     console.log(this.mouseX() + " : " + this.mouseY());
-    this.isDragging = false;
-    window.removeEventListener("mousemove", this.move);
-    window.removeEventListener("mouseup", this.up);
+    this.dragging.set(false);
+    window.removeEventListener("mousemove", this.pointerMove);
+    window.removeEventListener("mouseup", this.pointerUp);
   };
 }

@@ -1,6 +1,6 @@
 <main #sourceDiv class="io" (mousedown)="drawLine($event, sourceDiv)"></main>
 
-@if (isDragging) {
+@if (this.dragging()) {
 
 <svg>
   <line

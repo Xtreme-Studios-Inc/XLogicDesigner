@@ -17,8 +17,10 @@ export class ContextMenuComponent {
   // menuX = signal(0);
   // menuY = signal(0);
 
-  menuX = input.required<number>();
-  menuY = input.required<number>();
+  menuPos = input.required<{ x: number; y: number }>();
+
+  // menuX = input.required<number>();
+  // menuY = input.required<number>();
 
   // Optional: track which item was right-clicked, e.g., a puzzle piece
   rightClickedPieceId: string | null = null;

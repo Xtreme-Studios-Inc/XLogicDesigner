@@ -30,11 +30,13 @@ export class PatternComponent {
   pointerDown(event: MouseEvent) {
     event.preventDefault();
 
-    if (event.button == 0) this.leftClick(event);
+    if (event.button == 0) this.select(event);
   }
 
   // Select
-  leftClick(event: MouseEvent) {
+  private dragOffsetX = 0;
+  private dragOffsetY = 0;
+  select(event: MouseEvent) {
     this.mouseDownL.set(true);
 
     window.addEventListener("mousemove", this.pointerMove);
@@ -46,8 +48,6 @@ export class PatternComponent {
     this.dragOffsetY = event.clientY - this.y() * zoom;
   }
 
-  private dragOffsetX = 0;
-  private dragOffsetY = 0;
   pointerMove = (event: MouseEvent) => {
     if (!this.mouseDownL()) return;
     this.dragging.set(true);

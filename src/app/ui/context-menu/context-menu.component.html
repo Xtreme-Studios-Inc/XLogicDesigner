@@ -1,5 +1,9 @@
 @if(isVisable()) {
-<div class="context-menu" [style.left.px]="menuX()" [style.top.px]="menuY()">
+<div
+  class="context-menu"
+  [style.left.px]="menuPos().x"
+  [style.top.px]="menuPos().y"
+>
   <div (click)="doAction('copy')">Copy</div>
   <div (click)="doAction('delete')">Delete</div>
   <div (click)="doAction('info')">Info</div>

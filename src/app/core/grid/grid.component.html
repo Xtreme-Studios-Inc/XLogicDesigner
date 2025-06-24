@@ -1,6 +1,6 @@
 <div
   class="viewport"
-  [class.dragging]="dragging()"
+  [class.dragging]="cursorDrag"
   (mousedown)="pointerDown($event)"
   (contextmenu)="onContextMenu($event)"
   (wheel)="onWheel($event)"
@@ -8,8 +8,7 @@
   @if (showContextMenu()) {
   <x-context-menu
     [isVisable]="showContextMenu()"
-    [menuX]="lastMouseX()"
-    [menuY]="lastMouseY()"
+    [menuPos]="this.cursorPos"
   ></x-context-menu>
   }
 
@@ -26,7 +25,7 @@
 
     @for (piece of project; track $index) {
     <x-pattern
-      [gridZoom]="this.zoom()"
+      [gridZoom]="this.gridService.zoom"
       [gridSize]="this.grid.size"
       [pattern]="piece.id"
     ></x-pattern>

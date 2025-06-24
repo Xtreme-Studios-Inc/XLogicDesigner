@@ -13,6 +13,9 @@ import {
   PatternType,
 } from "../pattern/pattern-type/pattern";
 import { PatternService } from "../pattern/pattern-type/pattern.service";
+import { GridService } from "./grid.service";
+import { InputService } from "./input.service";
+import { GridSettings } from "./grid.types";
 
 @Component({
   selector: "x-grid",
@@ -22,42 +25,48 @@ import { PatternService } from "../pattern/pattern-type/pattern.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridComponent {
-  constructor(private patternService: PatternService) {}
-
   // Grid Settings
-  grid = {
-    color: "#272727",
-    size: 10000,
-    cellSize: 100,
-    lineWidth: 3,
-    baseZoom: 2,
-    maxZoom: 2,
-    minZoom: 0.4,
-  };
+  grid: GridSettings;
+
+  constructor(
+    private inputService: InputService,
+    public gridService: GridService,
+    private patternService: PatternService
+  ) {
+    this.grid = this.gridService.grid;
+  }
 
   @ViewChild("canvas", { static: true }) canvas!: ElementRef<HTMLDivElement>;
 
   showContextMenu = signal(false);
 
-  offsetX = signal(-(this.grid.size / 2));
-  offsetY = signal(-(this.grid.size / 2));
+  // offsetX = signal(-(this.gridService.grid.size / 2));
+  // offsetY = signal(-(this.gridService.grid.size / 2));
 
-  mouseDownR = signal(false);
-  mouseDownL = signal(false);
+  // selectionActive = signal(false);
+  // selectionStartX = signal(0);
+  // selectionStartY = signal(0);
+  // selectionCurrentX = signal(0);
+  // selectionCurrentY = signal(0);
 
-  dragging = signal(false);
-  lastMouseX = signal(0);
-  lastMouseY = signal(0);
-  zoom = signal(this.grid.baseZoom);
+  get cursorPos() {
+    return this.inputService.lastCursorPos();
+  }
+  set cursorPos(cursorPos: { x: number; y: number }) {
+    this.inputService.setLastCursorPos(cursorPos.x, cursorPos.y);
+  }
 
-  selectionActive = signal(false);
-  selectionStartX = signal(0);
-  selectionStartY = signal(0);
-  selectionCurrentX = signal(0);
-  selectionCurrentY = signal(0);
+  get cursorDrag() {
+    return this.inputService.cursorDrag;
+  }
+  set cursorDrag(dragging: boolean) {
+    this.inputService.cursorDrag = dragging;
+  }
 
   get transform() {
-    return `translate(${this.offsetX()}px, ${this.offsetY()}px) scale(${this.zoom()}`;
+    return `translate(${this.gridService.offsetX()}px, ${this.gridService.offsetY()}px) scale(${
+      this.gridService.zoom
+    }`;
   }
 
   get gridBackground() {
@@ -77,169 +86,72 @@ export class GridComponent {
     });
     return project;
   }
-
   //#endregion
 
   onContextMenu(event: MouseEvent) {
     event.preventDefault();
 
-    if (this.dragging()) return;
+    if (this.cursorDrag) return;
     this.showContextMenu.set(true);
   }
 
   // Select
   leftClick(event: MouseEvent) {
-    this.mouseDownL.set(true);
+    this.inputService.cursorL.set(true);
 
-    this.selectionActive.set(true);
-    this.selectionStartX.set(event.clientX);
-    this.selectionStartY.set(event.clientY);
-    this.selectionCurrentX.set(event.clientX);
-    this.selectionCurrentY.set(event.clientY);
+    // this.selectionActive.set(true);
+    // this.selectionStartX.set(event.clientX);
+    // this.selectionStartY.set(event.clientY);
+    // this.selectionCurrentX.set(event.clientX);
+    // this.selectionCurrentY.set(event.clientY);
 
-    window.addEventListener("mousemove", this.onGridMouseMove);
-    window.addEventListener("mouseup", this.onGridMouseUp);
+    // window.addEventListener("mousemove", this.onGridMouseMove);
+    // window.addEventListener("mouseup", this.onGridMouseUp);
   }
 
-  onGridMouseMove = (event: MouseEvent) => {
-    if (!this.selectionActive()) return;
-    // console.log("grid mouse move");
-    this.selectionCurrentX.set(event.clientX);
-    this.selectionCurrentY.set(event.clientY);
-  };
+  // onGridMouseMove = (event: MouseEvent) => {
+  //   if (!this.selectionActive()) return;
+  //   // console.log("grid mouse move");
+  //   this.selectionCurrentX.set(event.clientX);
+  //   this.selectionCurrentY.set(event.clientY);
+  // };
 
-  onGridMouseUp = (event: MouseEvent) => {
-    // console.log("grid Mouse up");
-    if (!this.selectionActive()) return;
-    this.selectionActive.set(false);
+  // onGridMouseUp = (event: MouseEvent) => {
+  //   // console.log("grid Mouse up");
+  //   if (!this.selectionActive()) return;
+  //   this.selectionActive.set(false);
 
-    // Here, you can calculate selected items within the box
+  //   // Here, you can calculate selected items within the box
 
-    window.removeEventListener("mousemove", this.onGridMouseMove);
-    window.removeEventListener("mouseup", this.onGridMouseUp);
-  };
+  //   window.removeEventListener("mousemove", this.onGridMouseMove);
+  //   window.removeEventListener("mouseup", this.onGridMouseUp);
+  // };
 
   rightClick(event: MouseEvent) {
-    this.mouseDownR.set(true);
-    this.lastMouseX.set(event.clientX);
-    this.lastMouseY.set(event.clientY);
+    this.inputService.cursorR.set(true);
+    this.cursorPos = { x: event.clientX, y: event.clientY };
   }
 
   //#region GRID MOVE
-  private calculateMaxMinOffset(): {
-    minOffsetX: number;
-    maxOffsetX: number;
-    minOffsetY: number;
-    maxOffsetY: number;
-  } {
-    const zoom = this.zoom(); // your zoom signal
-
-    const canvasWidth = this.grid.size * zoom;
-    const canvasHeight = this.grid.size * zoom;
-
-    // console.log(canvasWidth);
-
-    const minOffsetX =
-      -this.grid.size +
-      window.innerWidth -
-      7 +
-      (this.grid.size - canvasWidth) / 2; // rightmost pan
-    const maxOffsetX = (canvasWidth - this.grid.size) / 2; // leftmost pan
-
-    const minOffsetY =
-      -this.grid.size +
-      window.innerHeight -
-      7 +
-      (this.grid.size - canvasHeight) / 2;
-    const maxOffsetY = (canvasHeight - this.grid.size) / 2;
-
-    return { minOffsetX, maxOffsetX, minOffsetY, maxOffsetY };
-  }
-
-  private moveGrid(deltaX: number, deltaY: number) {
-    const { minOffsetX, maxOffsetX, minOffsetY, maxOffsetY } =
-      this.calculateMaxMinOffset();
-
-    // Prevents Panning too far Left
-    const newOffsetX = this.offsetX() + deltaX;
-    if (newOffsetX <= maxOffsetX && newOffsetX >= minOffsetX) {
-      this.offsetX.set(newOffsetX);
-    } else if (newOffsetX > maxOffsetX) {
-      this.offsetX.set(maxOffsetX);
-    } else if (newOffsetX < minOffsetX) {
-      this.offsetX.set(minOffsetX);
-    }
-
-    // Prevents Panning too far Right
-    const newOffsetY = this.offsetY() + deltaY;
-    if (newOffsetY <= maxOffsetY && newOffsetY > minOffsetY) {
-      this.offsetY.set(newOffsetY);
-    } else if (newOffsetY > maxOffsetY) {
-      this.offsetY.set(maxOffsetY);
-    } else if (newOffsetY < minOffsetY) {
-      this.offsetY.set(minOffsetY);
-    }
-  }
-
   pointerMove = (event: MouseEvent) => {
-    if (!this.mouseDownR()) return;
-    this.dragging.set(true);
+    if (!this.inputService.cursorR()) return;
+    this.cursorDrag = true;
 
-    const deltaX = event.clientX - this.lastMouseX();
-    const deltaY = event.clientY - this.lastMouseY();
+    const { x: cursorX, y: cursorY } = this.cursorPos;
+    const deltaX = event.clientX - cursorX;
+    const deltaY = event.clientY - cursorY;
 
-    this.moveGrid(deltaX, deltaY);
+    this.gridService.moveGrid(deltaX, deltaY);
 
-    this.lastMouseX.set(event.clientX);
-    this.lastMouseY.set(event.clientY);
+    this.cursorPos = { x: event.clientX, y: event.clientY };
   };
   //#endregion
 
   //#region GRID ZOOM
-  private zoomTarget = 1;
-  private zoomAnimationFrame: number | null = null;
-
-  smoothZoomStep = () => {
-    const current = this.zoom();
-    const target = this.zoomTarget;
-    const ease = 0.16; // 0.16 = ease-in factor (lower = slower, more smooth)
-    const next = current + (target - current) * ease;
-
-    this.zoom.set(next);
-    this.moveGrid(0, 0);
-
-    // If close enough to the target, snap and stop
-    if (Math.abs(target - next) < 0.001) {
-      this.zoom.set(target);
-      this.zoomAnimationFrame = null;
-      return;
-    }
-
-    this.zoomAnimationFrame = requestAnimationFrame(this.smoothZoomStep);
-  };
-
-  easeZoomTo(target: number) {
-    this.zoomTarget = target;
-    if (this.zoomAnimationFrame !== null) {
-      cancelAnimationFrame(this.zoomAnimationFrame);
-    }
-    this.smoothZoomStep();
-  }
-
   onWheel(event: WheelEvent) {
     event.preventDefault();
 
-    const ZOOM_STEP = 0.1;
-    // const ZOOM_STEP = 0.05;
-    let nextZoom = this.zoom() - (event.deltaY > 0 ? ZOOM_STEP : -ZOOM_STEP);
-
-    // Clamp the zoom
-    nextZoom = Math.min(
-      this.grid.maxZoom,
-      Math.max(this.grid.minZoom, nextZoom)
-    );
-
-    this.easeZoomTo(nextZoom);
+    this.gridService.changeZoom(event.deltaY);
   }
   //#endregion
 
@@ -256,14 +168,13 @@ export class GridComponent {
   }
 
   pointerUp = () => {
-    if (this.dragging()) {
+    if (this.cursorDrag) {
       setTimeout(() => {
-        this.dragging.set(false);
+        this.cursorDrag = false;
       }, 10);
-      console.log("gird pos: " + this.offsetX() + " : " + this.offsetY());
     }
-    this.mouseDownR.set(false);
-    this.mouseDownL.set(false);
+    this.inputService.cursorR.set(false);
+    this.inputService.cursorL.set(false);
 
     window.removeEventListener("mousemove", this.pointerMove);
     window.removeEventListener("mouseup", this.pointerUp);
